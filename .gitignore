@@ -1,0 +1,27 @@
+# Node
+node_modules/
+npm-debug.log*
+yarn-error.log*
+
+# Env
+.env
+.env.local
+.env.*.local
+
+# DB
+data.sqlite
+*.sqlite
+*.db
+
+# Build
+dist/
+build/
+.vite/
+
+# Editor
+.vscode/
+.idea/
+.DS_Store
+
+# Mac
+*.DS_Store

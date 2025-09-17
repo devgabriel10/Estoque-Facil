@@ -1,14 +1,34 @@
-const { PrismaClient } = require("@prisma/client");
-const bcrypt = require("bcryptjs");
+import { PrismaClient } from "@prisma/client";
+import bcrypt from "bcryptjs";
 
 const prisma = new PrismaClient();
 
-exports.getUsers = async (req, res) => {
-  const users = await prisma.user.findMany({ select: { id: true, name: true, email: true, createdAt: true } });
-  res.json(users);
+export async function getUsers (req, res) {
+  try {
+    const users = await prisma.user.findMany({
+      select: { id: true, name: true, email: true, createdAt: true },
+    });
+    res.json(users);
+  } catch (error) {
+    res.status(500).json({ error: "Erro ao buscar usuários" });
+  }
 };
 
-exports.createUser = async (req, res) => {
+export async function getUserById (req, res) {
+  const { id } = req.params;
+  try {
+    const user = await prisma.user.findUnique({
+      where: { id: Number(id) },
+      select: { id: true, name: true, email: true, createdAt: true },
+    });
+    if (!user) return res.status(404).json({ error: "Usuário não encontrado" });
+    res.json(user);
+  } catch (error) {
+    res.status(500).json({ error: "Erro ao buscar usuário" });
+  }
+};
+
+export async function createUser (req, res) {
   const { name, email, password } = req.body;
   if (!name || !email || !password) return res.status(400).json({ error: "Todos os campos são obrigatórios" });
 
@@ -21,18 +41,22 @@ exports.createUser = async (req, res) => {
   }
 };
 
-exports.updateUser = async (req, res) => {
+
+export async function updateUser (req, res) {
   const { id } = req.params;
   const { name, email } = req.body;
   try {
-    const user = await prisma.user.update({ where: { id: Number(id) }, data: { name, email } });
-    res.json(user);
+    const user = await prisma.user.update({
+      where: { id: Number(id) },
+      data: { name, email },
+    });
+    res.json({ message: "Usuário atualizado com sucesso", user });
   } catch (error) {
     res.status(400).json({ error: "Erro ao atualizar usuário" });
   }
 };
 
-exports.deleteUser = async (req, res) => {
+export async function deleteUser (req, res) {
   const { id } = req.params;
   try {
     await prisma.user.delete({ where: { id: Number(id) } });

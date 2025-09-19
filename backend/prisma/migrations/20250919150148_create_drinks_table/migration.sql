@@ -1,0 +1,11 @@
+-- CreateTable
+CREATE TABLE "Drink" (
+    "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    "name" TEXT NOT NULL,
+    "category" TEXT NOT NULL,
+    "quantity" INTEGER NOT NULL DEFAULT 0,
+    "minQuantity" INTEGER NOT NULL DEFAULT 0,
+    "status" TEXT NOT NULL DEFAULT 'ok',
+    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" DATETIME NOT NULL
+);

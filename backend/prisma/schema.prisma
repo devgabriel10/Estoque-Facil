@@ -28,10 +28,12 @@ model Product {
 model Drink {
   id          Int      @id @default(autoincrement())
   name        String
-  category    String   // Ex: "Refrigerante", "Suco", "Vinho", etc.
+  category    String?   // ex: "Refrigerante", "Suco", "Vinho", etc.
+  unit        String?   // ex: "ml", "un"
+  size        String?   // ex: "750ml"
+  price       Float? 
   quantity    Int      @default(0)
-  minQuantity Int      @default(0) // quantidade mínima definida pelo usuário
-  status      String   @default("ok") // ok, fazer_pedido, esgotado
+  minQuantity Int      @default(0) // limite mínimo definido pelo usuário
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }

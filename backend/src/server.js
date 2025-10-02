@@ -3,6 +3,7 @@ import authRoutes from "./routes/authRoutes.js";
 import userRoutes from "./routes/usersRoutes.js";
 import productRoutes from "./routes/productsRoutes.js";
 import drinksRoutes from "./routes/drinksRoutes.js";
+import stockMovementsRoutes from "./routes/stockMovementsRoutes.js";
 
 const app = express();
 const PORT = process.env.PORT || 4000;
@@ -17,6 +18,7 @@ app.use("/auth", authRoutes);
 app.use("/users", userRoutes);
 app.use("/products", productRoutes);
 app.use("/drinks", drinksRoutes);
+app.use("/stock-movements", stockMovementsRoutes);
 
 
 app.listen(PORT, () => {

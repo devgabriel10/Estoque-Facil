@@ -49,7 +49,7 @@ export async function createStockMovement(req, res) {
   }
 }
 
-export async function listStockMovements(req, res) {
+export async function getStockMovements(req, res) {
   try {
     const { drinkId, userId, type, dateFrom, dateTo } = req.query;
     const page = Math.max(1, Number(req.query.page || 1));
@@ -78,5 +78,35 @@ export async function listStockMovements(req, res) {
   } catch (err) {
     console.error("listStockMovements error:", err);
     res.status(500).json({ error: "Erro ao listar movimentos de estoque" });
+  }
+}
+
+export async function getStockMovementsByDrink(req, res) {
+  try {
+    const { id } = req.params;
+    const movements = await prisma.stockMovement.findMany({
+      where: { drinkId: Number(id) },
+      include: { drink: true, user: true },
+      orderBy: { createdAt: "desc" }
+    });
+
+    res.json(movements);
+  } catch (error) {
+    res.status(500).json({ error: "Erro ao buscar movimentações por bebida", details: error.message });
+  }
+}
+
+export async function getStockMovementsByUser(req, res) {
+  try {
+    const { id } = req.params;
+    const movements = await prisma.stockMovement.findMany({
+      where: { userId: Number(id) },
+      include: { drink: true, user: true },
+      orderBy: { createdAt: "desc" }
+    });
+
+    res.json(movements);
+  } catch (error) {
+    res.status(500).json({ error: "Erro ao buscar movimentações por usuário", details: error.message });
   }
 }
